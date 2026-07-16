@@ -6,7 +6,7 @@ export default function AvisPage() {
   const [avis, setAvis] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:5000/avis')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/avis`)
       .then((response) => response.json())
       .then((data) => setAvis(data))
       .catch((error) => console.error(error))

@@ -16,7 +16,7 @@ e.preventDefault()
 
 // À adapter avec ton endpoint API
 const response = await fetch(
-"http://localhost:5000/reset-password",
+`${process.env.NEXT_PUBLIC_API_URL}/reset-password`,
 {
 method:"POST",
 headers:{

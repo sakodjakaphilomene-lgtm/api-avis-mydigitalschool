@@ -13,12 +13,12 @@ async function envoyer(e){
 
 e.preventDefault()
 
-await fetch("http://localhost:5000/add/avis",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
+await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add/avis`, {
+  method:"POST",
+  headers:{
+    "Content-Type":"application/json"
+  },
+  body:JSON.stringify({
 name,
 description,
 rating:Number(rating)
