@@ -121,7 +121,7 @@ catch (error) {
             href="/register"
             className="font-semibold text-indigo-400 hover:text-indigo-300"
           >
-            s'inscrire
+            inscrivez-vous
           </a>
         </p>
       </div>
