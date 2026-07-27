@@ -1,67 +1,116 @@
 'use client'
 
-import {useState} from "react"
+import { useState } from "react"
 
 export default function AjouterAvis(){
 
-const [name,setName] = useState("")
-const [description,setDescription] = useState("")
-const [rating,setRating] = useState("")
+  const [name, setName] = useState("")
+  const [rating, setRating] = useState("")
+  const [description, setDescription] = useState("")
+  const [message, setMessage] = useState("")
 
 
-async function envoyer(e){
+  async function envoyer(e){
 
-e.preventDefault()
+    e.preventDefault()
 
-await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add/avis`, {
-  method:"POST",
-  headers:{
-    "Content-Type":"application/json"
-  },
-  body:JSON.stringify({
-name,
-description,
-rating:Number(rating)
-})
-})
+    try {
 
-alert("Avis envoyé")
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/add/avis`,
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            name,
+            rating:Number(rating),
+            description,
+            date:new Date()
+          })
+        }
+      )
 
-}
+
+      const data = await response.json()
+
+      console.log(data)
+
+      if(response.ok){
+        setMessage("Avis ajouté avec succès")
+        setName("")
+        setRating("")
+        setDescription("")
+      }
+      else{
+        setMessage(data.error)
+      }
 
 
-return (
+    } catch(error){
 
-<form onSubmit={envoyer} className="p-10 space-y-4">
+      console.error(error)
+      setMessage("Erreur serveur")
 
-<h1 className="text-2xl font-bold">
-Ajouter un avis
-</h1>
+    }
 
-<input 
-className="border p-2"
-placeholder="Nom"
-onChange={(e)=>setName(e.target.value)}
-/>
+  }
 
-<input 
-className="border p-2"
-placeholder="Note"
-onChange={(e)=>setRating(e.target.value)}
-/>
 
-<textarea
-className="border p-2"
-placeholder="Votre avis"
-onChange={(e)=>setDescription(e.target.value)}
-/>
+  return (
 
-<button className="bg-blue-600 text-white px-4 py-2">
-Envoyer
-</button>
+    <form 
+      onSubmit={envoyer}
+      className="p-10 space-y-4"
+    >
 
-</form>
+      <h1 className="text-3xl font-bold">
+        Ajouter un avis
+      </h1>
 
-)
+
+      <input
+        className="border p-2"
+        placeholder="Nom"
+        value={name}
+        onChange={(e)=>setName(e.target.value)}
+        required
+      />
+
+
+      <input
+        className="border p-2"
+        placeholder="Note (1 à 5)"
+        type="number"
+        min="1"
+        max="5"
+        value={rating}
+        onChange={(e)=>setRating(e.target.value)}
+        required
+      />
+
+
+      <textarea
+        className="border p-2"
+        placeholder="Votre avis"
+        value={description}
+        onChange={(e)=>setDescription(e.target.value)}
+        required
+      />
+
+
+      <button
+        className="bg-blue-600 text-white px-5 py-2"
+      >
+        Envoyer
+      </button>
+
+
+      <p>{message}</p>
+
+    </form>
+
+  )
 
 }

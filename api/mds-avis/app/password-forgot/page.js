@@ -1,14 +1,21 @@
 'use client'
 
 import { useState } from 'react'
+import { forgotPassword } from '@/service/password-forgot'
 
 export default function PasswordForgotPage() {
   const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    alert('Lien envoyé')
+    try {
+      const data = await forgotPassword(email)
+      setMessage(data.message)
+    } catch (error) {
+      setMessage(error.message)
+    }
   }
 
   return (
@@ -27,6 +34,7 @@ export default function PasswordForgotPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="mb-4 w-full rounded border p-2"
+          required
         />
 
         <button
@@ -35,6 +43,12 @@ export default function PasswordForgotPage() {
         >
           Envoyer
         </button>
+
+        {message && (
+          <p className="mt-4 text-center">
+            {message}
+          </p>
+        )}
       </form>
     </div>
   )

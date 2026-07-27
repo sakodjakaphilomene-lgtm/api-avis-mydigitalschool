@@ -5,10 +5,17 @@ export async function register(name, email, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      name,
       email,
       password,
     }),
-  })
+  });
 
-  return await response.json()
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error);
+  }
+
+  return data;
 }

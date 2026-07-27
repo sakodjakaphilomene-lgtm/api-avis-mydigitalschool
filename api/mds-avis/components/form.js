@@ -19,9 +19,11 @@ export default function Form() {
 
   const data = await login(email, password)
 
-  console.log(data)
+console.log("REPONSE LOGIN :", data)
 
-  router.push('/avis')
+localStorage.setItem("user", JSON.stringify(data.user))
+
+router.push('/avis')
 
 }
 catch (error) {
