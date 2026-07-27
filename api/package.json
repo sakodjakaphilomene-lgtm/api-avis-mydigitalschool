@@ -7,8 +7,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
